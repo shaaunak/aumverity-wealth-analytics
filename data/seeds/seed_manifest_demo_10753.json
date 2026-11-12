@@ -1,0 +1,69 @@
+{
+  "profile": "demo",
+  "seed": 10753,
+  "baseline_date": "2026-09-30",
+  "stories": {
+    "STORY_A": {
+      "description": "Concentrated Q3 2026 external outflows on ADV-001",
+      "advisor_code": "ADV-001",
+      "affected_accounts": [
+        "ACCT-000001",
+        "ACCT-000002",
+        "ACCT-000003",
+        "ACCT-000004",
+        "ACCT-000005",
+        "ACCT-000006"
+      ]
+    },
+    "STORY_B": {
+      "description": "Rate-driven sweep-to-external cash outflows",
+      "affected_accounts_count": 12
+    },
+    "STORY_C": {
+      "description": "Market-driven AUM growth in Self-Directed Investing (SDI)",
+      "segment_code": "SDI"
+    },
+    "STORY_D": {
+      "description": "High-growth advisor ADV-002 via diversified new client inflows",
+      "advisor_code": "ADV-002"
+    },
+    "STORY_E": [
+      {
+        "scenario_id": "E1_DUPLICATE_FEED_RECORD",
+        "affected_account": "1e24bd5a-bcad-5a93-8a41-50869025260a",
+        "issue_type": "DUPLICATE_RECORD",
+        "affected_period": "2026-09-30",
+        "detection_method": "GROUP BY feed_source, account_id, as_of_date, record_hash HAVING COUNT(*) > 1",
+        "expected_financial_impact_usd": "392941.68"
+      },
+      {
+        "scenario_id": "E2_MISSING_TX_IN_REPORTING",
+        "affected_account": "78e244e0-7b7e-548f-a13e-9557c4f32c4c",
+        "issue_type": "MISSING_TRANSACTION_AGGREGATE",
+        "affected_period": "2026-09-30",
+        "detection_method": "Compare marts.monthly_asset_snapshots vs raw.reported_asset_snapshots",
+        "expected_financial_impact_usd": "-250000.00"
+      },
+      {
+        "scenario_id": "E3_LATE_POSTED_TRANSFER",
+        "affected_account": "ACCT-000061",
+        "issue_type": "LATE_POSTED_TRANSFER",
+        "affected_period": "2026-Q3",
+        "detection_method": "DATE_TRUNC('month', effective_date) <> DATE_TRUNC('month', posted_date)",
+        "expected_financial_impact_usd": "150000.00"
+      },
+      {
+        "scenario_id": "E4_INCORRECT_CLASSIFICATION",
+        "affected_accounts": [
+          "c6c0f9da-2dd9-5d22-bf07-9cbfe3c052b2",
+          "665029d5-12c4-5aec-9005-061a3c4bb94c",
+          "47852045-faee-5b61-bb6c-e095d3019d37"
+        ],
+        "issue_type": "CLASSIFICATION_MISMATCH",
+        "affected_period": "2026-09-30",
+        "detection_method": "Compare raw.reported_asset_snapshots advisor_id/segment_id vs raw.accounts",
+        "expected_financial_impact_usd": "0.00"
+      }
+    ]
+  }
+}
